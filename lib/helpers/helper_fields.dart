@@ -136,7 +136,10 @@ Padding customDropDownCategory() {
           listTextStyle: const TextStyle(color: Color.fromARGB(255, 107, 108, 110)),
           dropDownItemCount: 5,
   
-          onChanged: (val) {},
+          onChanged: (val) {
+            print(val.name);
+          
+          },
         ),
       ),
     ),

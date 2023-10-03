@@ -111,7 +111,7 @@ List<PieChartSectionData> showingSections(int touchedIndex) {
   }
   //SLIDEABLE CONTAINER
 
-  Slidable slideableContainer(double width, BuildContext context) {
+  Slidable slideableContainer(double width, BuildContext context,String category,String amount,String date,String description,VoidCallback delete,VoidCallback edit) {
     return Slidable(
   key: const ValueKey(0),
   startActionPane: ActionPane(
@@ -119,7 +119,9 @@ List<PieChartSectionData> showingSections(int touchedIndex) {
   dismissible: DismissiblePane(onDismissed: () {}),
   children:  [
     SlidableAction(
-      onPressed:(context){},
+      onPressed:(context){
+        delete;
+      },
       backgroundColor: Color(0xFFFE4A49),
       foregroundColor: Colors.white,
       icon: Icons.delete,
@@ -132,7 +134,9 @@ endActionPane:  ActionPane(
   motion: ScrollMotion(),
   children: [
     SlidableAction(
-      onPressed: (context){},
+      onPressed: (context) {
+        delete();
+      },
       backgroundColor: Color(0xFF0392CF),
       foregroundColor: Colors.white,
       icon: Icons.edit_document,
@@ -143,7 +147,6 @@ endActionPane:  ActionPane(
 child:  Padding(
   padding: const EdgeInsets.only(left:8.0,right:8),
   child: Container(
-    height: 150,
     width:width,
     decoration:BoxDecoration(
       color: Color(0xffedeeded),
@@ -157,13 +160,13 @@ child:  Padding(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            customtext("Food", textColor, 20, FontWeight.bold),
-            customtext("55 AED", textColor, 22, FontWeight.bold),
+            customtext(category, textColor, 20, FontWeight.bold),
+            customtext("$amount AED", textColor, 22, FontWeight.bold),
           ],
         ),
         Row(mainAxisAlignment:MainAxisAlignment.start,
         children: [
-          customtext("10/3/2023",mainColor, 18, FontWeight.bold)
+          customtext(date,mainColor, 18, FontWeight.bold)
         ],
         ),
         verticalSpaceresponsive(0.01, context),
@@ -171,9 +174,10 @@ child:  Padding(
         children: [
           SizedBox(
             width:width*0.90,
-            child: customtext("Copyright Disclaimer Under Section 107 of the Copyright Act 1976, allowance is made for fair use for purposes such as criticism, comment",textColor, 14, FontWeight.normal))
+            child: customtext(description,textColor, 14, FontWeight.normal))
         ],
-        )
+        ),
+        verticalSpaceresponsive(0.015, context)
       ],
     ),
   ),  

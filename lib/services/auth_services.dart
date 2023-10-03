@@ -1,3 +1,4 @@
+import 'package:expense_tracker/models/expenses_model.dart';
 import 'package:expense_tracker/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,7 +31,7 @@ class Auth {
       await _firestore
           .collection('user')
           .doc(uid)
-          .collection('cart')
+          .collection('expenses')
           .doc(docid)
           .set({
         'description':description,
@@ -52,7 +53,7 @@ class Auth {
       await _firestore
           .collection('user')
           .doc(uid)
-          .collection('cart')
+          .collection('expenses')
           .doc(docid)
           .delete();
     } catch (e) {
@@ -78,4 +79,22 @@ class Auth {
     UserModel user = UserModel.fromJson(doc.data() as Map<String, dynamic>);
     return user;
   }
+   Future<List<Expenses>> getExpensesData(String userid) async {
+    final dataList = <Expenses>[];
+    final snapshot = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(userid)
+        .collection('expenses')
+        .get();
+    if (snapshot.docs.isEmpty) {
+      return dataList;
+    }
+    for (final doc in snapshot.docs) {
+      final expensedata = Expenses.fromJson(doc.data());
+      dataList.add(expensedata);
+    }
+    return dataList;
+  }
 }
+
+
